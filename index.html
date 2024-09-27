@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Игровой автомат</title>
+    <style>
+        body {
+            background-image: url('https://umbphotos.ag/images/375b18fa3ffcc616179b8cf6ed4732c6.webp'); /* Замените на URL вашего фонового изображения */
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-attachment: fixed;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        .slot-machine {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            height: auto;
+        }
+        .background-image {
+            width: 100%;
+            height: auto;
+        }
+        .reels {
+            position: absolute;
+            top: 45%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            justify-content: center;
+        }
+        .reel {
+            width: 75px;
+            height: 75px;
+            margin: 0 5px;
+            border: 2px solid #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2em;
+            background-color: #fff;
+            overflow: hidden;
+            position: relative;
+        }
+        .reel img {
+            max-width: 100%;
+            max-height: 100%;
+            position: absolute;
+            top: -100px; /* Начальная позиция за пределами видимости */
+            transition: top 0.5s ease-in;
+        }
+        .button {
+            position: absolute;
+            bottom: 5%;
+            left: 48%;
+            transform: translateX(-50%);
+            padding: 50px 500px;
+            font-size: 1.5em;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+        .button img {
+            width: 300px;
+            height: auto;
+        }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Полупрозрачный фон */
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        .result-button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            background-color: gold;
+            border: 2px solid #d4af37;
+            color: black;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            border-radius: 5px;
+            position: absolute;
+            bottom: 5%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+    </style>
+</head>
+<body>
+    <div class="slot-machine">
+        <img src="https://umbphotos.ag/images/0dc3c426704977a191d565fd8738bb00.png" alt="Background" class="background-image">
+        <div class="reels">
+            <div class="reel" id="reel1"><img src="https://example.com/images/cherry.png" alt="Cherry"></div>
+            <div class="reel" id="reel2"><img src="https://example.com/images/lemon.png" alt="Lemon"></div>
+            <div class="reel" id="reel3"><img src="https://example.com/images/watermelon.png" alt="Watermelon"></div>
+        </div>
+        <button class="button" onclick="spin()">
+            <img src="https://umbphotos.ag/images/1778e39465a58eee116c47fddbc8829c.png" alt="Крутить">
+        </button>
+        <audio id="spinSound" src="sounds/spin.mp3"></audio> <!-- Локальный аудиофайл -->
+        <audio id="winSound" src="sounds/win.mp3"></audio> <!-- Локальный аудиофайл для победы -->
+    </div>
+    <div id="overlay" class="overlay">
+        <img id="resultImage" class="result-image" src="" alt="Result" style="display: none;">
+        <button id="resultButton" class="result-button" onclick="handleResultButtonClick()"></button>
+    </div>
+
+    <script>
+        const symbols = [
+            'https://umbphotos.ag/images/2b11dac22ef9af9a3eb39a815cd1656a.png',
+            'https://umbphotos.ag/images/500935a8280a75e8e44190339d42f0fb.png',
+            'https://umbphotos.ag/images/cdb78ab758edb41837e8a48efa91a97f.png',
+            'https://umbphotos.ag/images/6ad2efa5d7acf4527f298877c80838cf.png',
+            'https://umbphotos.ag/images/b2383a68068f851edc375aa0bf02064b.png',
+            'https://umbphotos.ag/images/509ad67b1d76b8dddbf23f318119c34a.png'
+        ];
+
+        const winImageUrl = 'https://umbphotos.ag/images/d6d730ff59bf17e6daa9f16c6f5be53a.png'; // Замените на URL вашего изображения победы
+        const telegramUrl = 'https://t.me/CaifCoin_Kett_Operator '; // Замените на URL вашего Telegram аккаунта
+
+        let attemptCount = localStorage.getItem('attemptCount') ? parseInt(localStorage.getItem('attemptCount')) : 0;
+        let cycleCount = localStorage.getItem('cycleCount') ? parseInt(localStorage.getItem('cycleCount')) : 0;
+        let hasWon = localStorage.getItem('hasWon') === 'true';
+
+        function spin() {
+            const spinSound = document.getElementById('spinSound');
+            spinSound.play();
+
+            if (attemptCount < 5) {
+                if (!hasWon && (attemptCount === 4 || Math.random() < 0.2)) { // Победа на последней попытке или с вероятностью 20%
+                    setReels(true);
+                    showResult(true);
+                    hasWon = true;
+                    localStorage.setItem('hasWon', hasWon);
+                } else {
+                    setReels(false);
+                    showResult(false);
+                }
+
+                attemptCount++;
+                localStorage.setItem('attemptCount', attemptCount);
+            }
+
+            if (attemptCount === 5) {
+                resetCycle();
+            }
+        }
+
+        function setReels(isWin) {
+            for (let i = 1; i <= 3; i++) {
+                const reel = document.getElementById(`reel${i}`);
+                const img = reel.querySelector('img');
+                if (isWin) {
+                    const winSymbol = symbols[Math.floor(Math.random() * symbols.length)];
+                    img.src = winSymbol;
+                } else {
+                    let randomSymbol;
+                    do {
+                        randomSymbol = symbols[Math.floor(Math.random() * symbols.length)];
+                    } while (i > 1 && randomSymbol === document.getElementById(`reel${i-1}`).querySelector('img').src);
+                    img.src = randomSymbol;
+                }
+                img.style.top = '-100px'; // Сбрасываем позицию
+                setTimeout(() => {
+                    img.style.top = '0'; // Анимация падения
+                }, 100);
+            }
+        }
+
+        function showResult(isWin) {
+            const overlay = document.getElementById('overlay');
+            const resultImage = document.getElementById('resultImage');
+            const resultButton = document.getElementById('resultButton');
+            const winSound = document.getElementById('winSound');
+
+            if (isWin) {
+                resultImage.src = winImageUrl;
+                resultImage.style.display = 'block';
+                resultButton.textContent = 'Написать Кетт';
+                resultButton.onclick = () => window.location.href = telegramUrl;
+                winSound.play();
+            } else {
+                resultImage.style.display = 'none'; // Убираем изображение при проигрыше
+                resultButton.textContent = 'Попробуй еще раз';
+                resultButton.onclick = handleResultButtonClick;
+            }
+
+            overlay.style.display = 'flex';
+        }
+
+        function handleResultButtonClick() {
+            const overlay = document.getElementById('overlay');
+            overlay.style.display = 'none';
+        }
+
+        function resetCycle() {
+            attemptCount = 0;
+            hasWon = false;
+            cycleCount++;
+            localStorage.setItem('attemptCount', attemptCount);
+            localStorage.setItem('hasWon', hasWon);
+            localStorage.setItem('cycleCount', cycleCount);
+        }
+    </script>
+</body>
+</html>
