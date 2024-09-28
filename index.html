@@ -17,11 +17,42 @@
             align-items: center;
             flex-direction: column;
         }
-        .slot-machine {
-            position: relative;
-            width: 100%;
-            max-width: 600px;
-            height: auto;
+        .promo-screen, .slot-machine {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+        }
+        .promo-screen.active, .slot-machine.active {
+            display: flex;
+        }
+        .promo-code-input {
+            padding: 10px;
+            font-size: 1em;
+            border: 2px solid #000;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .promo-button {
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            background-color: gold;
+            border: 2px solid #d4af37;
+            color: black;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            border-radius: 5px;
+        }
+        .message {
+            padding: 10px 20px;
+            font-size: 1.2em;
+            color: red;
+            background-color: rgba(255, 255, 255, 0.8);
+            border: 2px solid red;
+            border-radius: 5px;
+            display: none;
+            margin-top: 10px;
         }
         .background-image {
             width: 100%;
@@ -99,29 +130,6 @@
             left: 50%;
             transform: translateX(-50%);
         }
-        .promo-code-input {
-            position: absolute;
-            top: 5%;
-            left: 50%;
-            transform: translateX(-50%);
-            padding: 10px;
-            font-size: 1em;
-            border: 2px solid #000;
-            border-radius: 5px;
-        }
-        .message {
-            position: absolute;
-            top: 10%;
-            left: 50%;
-            transform: translateX(-50%);
-            padding: 10px 20px;
-            font-size: 1.2em;
-            color: red;
-            background-color: rgba(255, 255, 255, 0.8);
-            border: 2px solid red;
-            border-radius: 5px;
-            display: none;
-        }
 
         /* Адаптивные стили */
         @media (max-width: 600px) {
@@ -148,6 +156,11 @@
     </style>
 </head>
 <body>
+    <div class="promo-screen active">
+        <input type="text" id="promoCode" class="promo-code-input" placeholder="Введите промокод">
+        <button class="promo-button" onclick="checkPromoCode()">Войти</button>
+        <div id="message" class="message"></div>
+    </div>
     <div class="slot-machine">
         <img src="https://umbphotos.ag/images/0dc3c426704977a191d565fd8738bb00.png" alt="Background" class="background-image">
         <div class="reels">
@@ -155,20 +168,18 @@
             <div class="reel" id="reel2"><img src="https://example.com/images/lemon.png" alt="Lemon"></div>
             <div class="reel" id="reel3"><img src="https://example.com/images/watermelon.png" alt="Watermelon"></div>
         </div>
-        <input type="text" id="promoCode" class="promo-code-input" placeholder="Введите промокод">
         <button class="button" onclick="spin()">
             <img src="https://umbphotos.ag/images/1778e39465a58eee116c47fddbc8829c.png" alt="Крутить">
         </button>
         <audio id="spinSound" src="spin.mp3"></audio> <!-- Локальный аудиофайл -->
         <audio id="winSound" src="win.mp3"></audio> <!-- Локальный аудиофайл для победы -->
-        <div id="message" class="message"></div>
     </div>
     <div id="overlay" class="overlay">
         <img id="resultImage" class="result-image" src="" alt="Result" style="display: none;">
-        <button id="resultButton" class="result-button" onclick="handleResultButtonClick()"></button>
+        <button id="resultButton" class="result-button" onclick="resetGame()">Попробуй еще раз</button>
     </div>
 
-  <script>
+<script>
         const symbols = [
             'https://umbphotos.ag/images/2b11dac22ef9af9a3eb39a815cd1656a.png',
             'https://umbphotos.ag/images/500935a8280a75e8e44190339d42f0fb.png',
@@ -182,34 +193,35 @@
         const telegramBotToken = '7775683186:AAGkwdGwDdc_5Mvpz6herg6kw_3CX6XCm1w'; // Замените на токен вашего Telegram бота
         const telegramChatId = '5920944588'; // Замените на ID чата администратора
 
-        const promoCodes = [
-            'X7Y8Z9', 'A1B2C3', 'D4E5F6', 'G7H8I9', 'J1K2L3',
-            'M4N5O6', 'P7Q8R9', 'S1T2U3', 'V4W5X6', 'Y7Z8A9',
-            'B1C2D3', 'E4F5G6', 'H7I8J9', 'K1L2M3', 'N4O5P6',
-            'Q7R8S9', 'T1U2V3', 'W4X5Y6', 'Z7A8B9', 'C1D2E3',
-            'F4G5H6', 'I7J8K9', 'L1M2N3', 'O4P5Q6', 'R7S8T9',
-            'U1V2W3', 'X4Y5Z6', 'A7B8C9', 'D1E2F3', 'G4H5I6',
-            'J7K8L9', 'M1N2O3', 'P4Q5R6', 'S7T8U9', 'V1W2X3',
-            'Y4Z5A6', 'B7C8D9', 'E1F2G3', 'H4I5J6', 'K7L8M9',
-            'N1O2P3', 'Q4R5S6', 'T7U8V9', 'W1X2Y3', 'Z4A5B6',
-            'C7D8E9', 'F1G2H3', 'I4J5K6', 'L7M8N9', 'O1P2Q3',
-            'R4S5T6', 'U7V8W9', 'X1Y2Z3', 'A4B5C6', 'D7E8F9',
-            'G1H2I3', 'J4K5L6', 'M7N8O9', 'P1Q2R3', 'S4T5U6',
-            'V7W8X9', 'Y1Z2A3', 'B4C5D6', 'E7F8G9', 'H1I2J3',
-            'K4L5M6', 'N7O8P9', 'Q1R2S3', 'T4U5V6', 'W7X8Y9',
-            'Z1A2B3', 'C4D5E6', 'F7G8H9', 'I1J2K3', 'L4M5N6',
-            'O7P8Q9', 'R1S2T3', 'U4V5W6', 'X7Y8Z9', 'A1B2C3',
-            'D4E5F6', 'G7H8I9', 'J1K2L3', 'M4N5O6', 'P7Q8R9',
-            'S1T2U3', 'V4W5X6', 'Y7Z8A9', 'B1C2D3', 'E4F5G6',
-            'H7I8J9', 'K1L2M3', 'N4O5P6', 'Q7R8S9', 'T1U2V3'
-        ];
+const promoCodes = [
+    'S7Z0FBTS', 'UV6OK73X', '93OPHD8V', 'Y5H9W7YH', '5240CGU2',
+    '57HPGDHJ', '157TGY0G', 'J4UWJUUX', 'MKB2RDCD', 'IZHN8NYC',
+    'IFI1IMCL', 'EUG1VUN5', 'KR2S1K0N', '5EYUPH33', 'KCHXVM6J',
+    'MW9YBQAS', 'DRQ0Y15P', 'BQ1027BB', 'CT6TEWCA', '8J6TGAP2',
+    'GFKEFYC5', 'CNXGOA7S', '75GB7U86', 'DTS9YC35', 'IN4X9TQK',
+    'H5FQZ7DR', 'T311BOP7', 'XW9P4QI5', '8QFUBIZY', 'PWZFL0T9',
+    'IZU7CLOX', 'BI6J8FFG', 'LFBG9QXT', 'GHBMP209', 'KTPL7LAT',
+    '2Q8P21L7', 'C7ZBFNPI', 'D5VEPD3C', 'EHHQEW9B', '98UIWEYL',
+    'QGL36VY4', 'L3EJ9MYJ', '8237WINJ', 'VEFDDYU3', '15VBRP2K',
+    'MMOZ2VQV', '0RFL96XX', 'QIQB0HEQ', 'I9K6I12Z', '811OKSUB',
+    'SYY9SF8S', '7LKADBXF', 'IP7ZHX46', 'PE3H42E7', 'PKPCPEV4',
+    '5D0G9A7O', 'C9VMXR90', 'V7FPRJSP', 'M0AQ5MGV', 'LWAX785D',
+    'DHN54955', 'BJNF7YBZ', 'CC4078RL', 'TEIN04WQ', 'PFYCKZ1C',
+    'ZDX013XR', 'Z2YRQOBU', 'JQ4LT262', '6TRF98PG', 'AJY44P9I',
+    'WSHN2PVS', '5OXP8Q7O', 'SIS3SUXE', 'BV2IIAHT', 'GVJ0ZANF',
+    'OYM1OX98', 'MTZZZY9I', 'BT8DN4Q7', 'R0IR43G0', 'ZQ84GE6G',
+    '018LT1XI', 'O693D9JD', 'DJ87YJZ3', 'NLR1J93T', '76Y6FGHE',
+    '59K3JRFW', 'B5T8E9GL', 'KOHC47ZL', 'QOCRUCY2', '6EIZQLZI',
+    'SJKHCA5D', 'BPNJ129H', 'WR98GK4O', '0R9TUR1G', '7RDRM7KM',
+    'UMIW6M8U', 'HFHI5DI9', 'D08X6FB2', 'ZSG1TWNG', 'C2G2SW6G'
+];
 
- let attemptCount = localStorage.getItem('attemptCount') ? parseInt(localStorage.getItem('attemptCount')) : 0;
+          let attemptCount = localStorage.getItem('attemptCount') ? parseInt(localStorage.getItem('attemptCount')) : 0;
         let cycleCount = localStorage.getItem('cycleCount') ? parseInt(localStorage.getItem('cycleCount')) : 0;
         let hasWon = localStorage.getItem('hasWon') === 'true';
         let usedPromoCodes = JSON.parse(localStorage.getItem('usedPromoCodes')) || [];
 
-        function spin() {
+        function checkPromoCode() {
             const promoCode = document.getElementById('promoCode').value;
             const messageElement = document.getElementById('message');
 
@@ -222,31 +234,35 @@
                 return;
             }
 
+            document.querySelector('.promo-screen').classList.remove('active');
+            document.querySelector('.slot-machine').classList.add('active');
+        }
+
+        function spin() {
+            const promoCode = document.getElementById('promoCode').value;
             const spinSound = document.getElementById('spinSound');
             spinSound.play();
 
-            if (attemptCount < 5) {
-                let result;
-                if (!hasWon && (attemptCount === 4 || Math.random() < 0.2)) { // Победа на последней попытке или с вероятностью 20%
-                    setReels(true);
-                    showResult(true);
-                    hasWon = true;
-                    result = 'Победа';
-                    localStorage.setItem('hasWon', hasWon);
-                } else {
-                    setReels(false);
-                    showResult(false);
-                    result = 'Проигрыш';
-                }
-
-                attemptCount++;
-                localStorage.setItem('attemptCount', attemptCount);
-                usedPromoCodes.push(promoCode);
-                localStorage.setItem('usedPromoCodes', JSON.stringify(usedPromoCodes));
-                document.getElementById('promoCode').value = ''; // Очистить поле ввода промокода
-
-                sendResultToTelegram(promoCode, result);
+            let result;
+            if (!hasWon && (attemptCount === 4 || Math.random() < 0.2)) { // Победа на последней попытке или с вероятностью 20%
+                setReels(true);
+                showResult(true);
+                hasWon = true;
+                result = 'Победа';
+                localStorage.setItem('hasWon', hasWon);
+            } else {
+                setReels(false);
+                showResult(false);
+                result = 'Проигрыш';
             }
+
+            attemptCount++;
+            localStorage.setItem('attemptCount', attemptCount);
+            usedPromoCodes.push(promoCode);
+            localStorage.setItem('usedPromoCodes', JSON.stringify(usedPromoCodes));
+            document.getElementById('promoCode').value = ''; // Очистить поле ввода промокода
+
+            sendResultToTelegram(promoCode, result);
 
             if (attemptCount === 5) {
                 resetCycle();
@@ -283,21 +299,16 @@
             if (isWin) {
                 resultImage.src = winImageUrl;
                 resultImage.style.display = 'block';
-                resultButton.textContent = 'Написать Кетт';
+                resultButton.textContent = '🎆Поздравляем🎆 Вы выиграли 1️⃣ грамм⚖️. Отправьте свой промокод🏷 и получите приз🎁 у оператора Kett💻';
                 resultButton.onclick = () => window.location.href = telegramUrl;
                 winSound.play();
             } else {
                 resultImage.style.display = 'none'; // Убираем изображение при проигрыше
                 resultButton.textContent = 'Попробуй еще раз';
-                resultButton.onclick = handleResultButtonClick;
+                resultButton.onclick = resetGame;
             }
 
             overlay.style.display = 'flex';
-        }
-
-        function handleResultButtonClick() {
-            const overlay = document.getElementById('overlay');
-            overlay.style.display = 'none';
         }
 
         function resetCycle() {
@@ -307,6 +318,13 @@
             localStorage.setItem('attemptCount', attemptCount);
             localStorage.setItem('hasWon', hasWon);
             localStorage.setItem('cycleCount', cycleCount);
+        }
+
+        function resetGame() {
+            const overlay = document.getElementById('overlay');
+            overlay.style.display = 'none';
+            document.querySelector('.slot-machine').classList.remove('active');
+            document.querySelector('.promo-screen').classList.add('active');
         }
 
         function sendResultToTelegram(promoCode, result) {
