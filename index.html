@@ -84,7 +84,6 @@
             flex-direction: column;
             position: absolute;
             top: 0;
-            animation: spin 1s linear infinite;
         }
         .reel img {
             width: 75px;
@@ -162,6 +161,11 @@
             0% { transform: translateY(0); }
             100% { transform: translateY(-100%); }
         }
+
+        @keyframes stop {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-100%); }
+        }
     </style>
 </head>
 <body>
@@ -205,6 +209,7 @@
         <img id="resultImage" class="result-image" src="" alt="Result" style="display: none;">
         <button id="resultButton" class="result-button" onclick="resetGame()">Попробуй еще раз</button>
     </div>
+
 <script>
     const symbols = [
         'https://umbphotos.ag/images/2b11dac22ef9af9a3eb39a815cd1656a.png',
@@ -215,7 +220,7 @@
         'https://umbphotos.ag/images/509ad67b1d76b8dddbf23f318119c34a.png'
     ];
 
-    const winImageUrl = 'https://umbphotos.ag/images/d6d730ff59bf17e6daa9f16c6f5be53a.png'; // Замените на URL вашего изображения победы
+const winImageUrl = 'https://umbphotos.ag/images/d6d730ff59bf17e6daa9f16c6f5be53a.png'; // Замените на URL вашего изображения победы
     const telegramBotToken = '7775683186:AAGkwdGwDdc_5Mvpz6herg6kw_3CX6XCm1w'; // Замените на токен вашего Telegram бота
     const telegramChatId = '5920944588'; // Замените на ID чата администратора
 
@@ -288,8 +293,8 @@
 
     function setReels(isWin) {
         const spinDuration = 10000; // Продолжительность вращения в миллисекундах
-        const maxSpins = 20; // Максимальное количество вращений
         const reelElements = [];
+        const spinCount = 30; // Количество вращений
 
         for (let i = 1; i <= 3; i++) {
             const reel = document.getElementById(`reel${i}`);
@@ -297,7 +302,7 @@
             reelElements.push(reelContainer);
             reelContainer.style.transition = 'none'; // Отключаем анимацию для мгновенного перемещения
             reelContainer.style.top = '0'; // Начальная позиция
-            reelContainer.style.animation = `spin ${spinDuration / maxSpins / 1000}s linear infinite`; // Устанавливаем анимацию
+            reelContainer.style.animation = `spin ${spinDuration / spinCount / 1000}s linear infinite`; // Устанавливаем анимацию
         }
 
         setTimeout(() => {
@@ -307,11 +312,13 @@
                 // Останавливаем вращение и устанавливаем конечный результат
                 setTimeout(() => {
                     reelContainer.style.animation = 'none'; // Останавливаем анимацию
-                    let randomSymbol;
-                    do {
-                        randomSymbol = symbols[Math.floor(Math.random() * symbols.length)];
-                    } while (i > 0 && randomSymbol === reelElements[i - 1].lastElementChild.src);
-                    reelContainer.lastElementChild.src = randomSymbol;
+                    let randomSymbols = shuffleArray(symbols.slice()); // Перемешиваем символы
+                    reelContainer.innerHTML = ''; // Очищаем контейнер
+                    randomSymbols.forEach(symbol => {
+                        const img = document.createElement('img');
+                        img.src = symbol;
+                        reelContainer.appendChild(img);
+                    });
                     reelContainer.style.transition = 'none';
                     reelContainer.style.transform = 'translateY(0)';
                 }, spinDuration);
@@ -322,6 +329,14 @@
         setTimeout(() => {
             showResult(isWin);
         }, spinDuration + 100); // Добавляем небольшую задержку для завершения всех анимаций
+    }
+
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
     }
 
     function showResult(isWin) {
