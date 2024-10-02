@@ -55,22 +55,23 @@
             margin-top: 10px;
         }
         .background-image {
-            width: 100%;
+            width: 200%;
             height: auto;
         }
         .reels {
-            position: absolute;
-            top: 48%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            display: flex;
+            display: grid;
+            grid-template-columns: repeat(4, 75px);
+            grid-template-rows: repeat(3, 75px);
+            gap: 0px;
             justify-content: center;
+            align-items: center;
+            position: relative;
+            top: -200;
         }
         .reel {
             width: 75px;
-            height: 75px;
-            margin: 0 5px;
-            border: 2px solid #000;
+            height: 225px;
+            border: 0px solid #000;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -91,7 +92,7 @@
         }
         .button {
             position: absolute;
-            bottom: 20%;
+            bottom: 5%;
             left: 50%;
             transform: translateX(-50%);
             padding: 50px 500px;
@@ -137,13 +138,12 @@
         /* Адаптивные стили */
         @media (max-width: 600px) {
             .reel {
-                width: 75px;
-                height: 75px;
+                width: 50px;
+                height: 50px;
                 font-size: 1.5em;
             }
             .button {
                 padding: 20px 100px;
-                bottom: 27%;
             }
             .button img {
                 width: 200px;
@@ -183,13 +183,15 @@
                     <img src="https://umbphotos.ag/images/2b11dac22ef9af9a3eb39a815cd1656a.png" alt="Symbol 1">
                     <img src="https://umbphotos.ag/images/500935a8280a75e8e44190339d42f0fb.png" alt="Symbol 2">
                     <img src="https://umbphotos.ag/images/cdb78ab758edb41837e8a48efa91a97f.png" alt="Symbol 3">
+                    <img src="https://umbphotos.ag/images/6ad2efa5d7acf4527f298877c80838cf.png" alt="Symbol 4">
                 </div>
             </div>
             <div class="reel" id="reel2">
                 <div class="reel-container">
+                    <img src="https://umbphotos.ag/images/2b11dac22ef9af9a3eb39a815cd1656a.png" alt="Symbol 1">
+                    <img src="https://umbphotos.ag/images/500935a8280a75e8e44190339d42f0fb.png" alt="Symbol 2">
+                    <img src="https://umbphotos.ag/images/cdb78ab758edb41837e8a48efa91a97f.png" alt="Symbol 3">
                     <img src="https://umbphotos.ag/images/6ad2efa5d7acf4527f298877c80838cf.png" alt="Symbol 4">
-                    <img src="https://umbphotos.ag/images/b2383a68068f851edc375aa0bf02064b.png" alt="Symbol 5">
-                    <img src="https://umbphotos.ag/images/509ad67b1d76b8dddbf23f318119c34a.png" alt="Symbol 6">
                 </div>
             </div>
             <div class="reel" id="reel3">
@@ -197,6 +199,15 @@
                     <img src="https://umbphotos.ag/images/2b11dac22ef9af9a3eb39a815cd1656a.png" alt="Symbol 1">
                     <img src="https://umbphotos.ag/images/500935a8280a75e8e44190339d42f0fb.png" alt="Symbol 2">
                     <img src="https://umbphotos.ag/images/cdb78ab758edb41837e8a48efa91a97f.png" alt="Symbol 3">
+                    <img src="https://umbphotos.ag/images/6ad2efa5d7acf4527f298877c80838cf.png" alt="Symbol 4">
+                </div>
+            </div>
+            <div class="reel" id="reel4">
+                <div class="reel-container">
+                    <img src="https://umbphotos.ag/images/2b11dac22ef9af9a3eb39a815cd1656a.png" alt="Symbol 1">
+                    <img src="https://umbphotos.ag/images/500935a8280a75e8e44190339d42f0fb.png" alt="Symbol 2">
+                    <img src="https://umbphotos.ag/images/cdb78ab758edb41837e8a48efa91a97f.png" alt="Symbol 3">
+                    <img src="https://umbphotos.ag/images/6ad2efa5d7acf4527f298877c80838cf.png" alt="Symbol 4">
                 </div>
             </div>
         </div>
@@ -210,188 +221,187 @@
         <img id="resultImage" class="result-image" src="" alt="Result" style="display: none;">
         <button id="resultButton" class="result-button" onclick="resetGame()">Попробуй еще раз</button>
     </div>
+    <script>
+        const symbols = [
+            'https://umbphotos.ag/images/2b11dac22ef9af9a3eb39a815cd1656a.png',
+            'https://umbphotos.ag/images/500935a8280a75e8e44190339d42f0fb.png',
+            'https://umbphotos.ag/images/cdb78ab758edb41837e8a48efa91a97f.png',
+            'https://umbphotos.ag/images/6ad2efa5d7acf4527f298877c80838cf.png',
+            'https://umbphotos.ag/images/b2383a68068f851edc375aa0bf02064b.png',
+            'https://umbphotos.ag/images/509ad67b1d76b8dddbf23f318119c34a.png'
+        ];
 
-<script>
-    const symbols = [
-        'https://umbphotos.ag/images/2b11dac22ef9af9a3eb39a815cd1656a.png',
-        'https://umbphotos.ag/images/500935a8280a75e8e44190339d42f0fb.png',
-        'https://umbphotos.ag/images/cdb78ab758edb41837e8a48efa91a97f.png',
-        'https://umbphotos.ag/images/6ad2efa5d7acf4527f298877c80838cf.png',
-        'https://umbphotos.ag/images/b2383a68068f851edc375aa0bf02064b.png',
-        'https://umbphotos.ag/images/509ad67b1d76b8dddbf23f318119c34a.png'
-    ];
-
-const winImageUrl = 'https://umbphotos.ag/images/d6d730ff59bf17e6daa9f16c6f5be53a.png'; // Замените на URL вашего изображения победы
-    const telegramBotToken = '7775683186:AAGkwdGwDdc_5Mvpz6herg6kw_3CX6XCm1w'; // Замените на токен вашего Telegram бота
-    const telegramChatId = '5920944588'; // Замените на ID чата администратора
+        const winImageUrl = 'https://umbphotos.ag/images/d6d730ff59bf17e6daa9f16c6f5be53a.png'; // Замените на URL вашего изображения победы
+        const telegramBotToken = '7775683186:AAGkwdGwDdc_5Mvpz6herg6kw_3CX6XCm1w'; // Замените на токен вашего Telegram бота
+        const telegramChatId = '5920944588'; // Замените на ID чата администратора
 
     const promoCodes = [
-        'A1B2C3D4', 'E5F6G7H8', 'I9J0K1L2', 'M3N4O5P6', 'Q7R8S9T0',
-        'U1V2W3X4', 'Y5Z6A7B8', 'C9D0E1F2', 'G3H4I5J6', 'K7L8M9N0',
-        'O1P2Q3R4', 'S5T6U7V8', 'W9X0Y1Z2', 'A3B4C5D6', 'E7F8G9H0',
-        'I1J2K3L4', 'M5N6O7P8', 'Q9R0S1T2', 'U3V4W5X6', 'Y7Z8A9B0',
-        'C1D2E3F4', 'G5H6I7J8', 'K9L0M1N2', 'O3P4Q5R6', 'S7T8U9V0',
-        'W1X2Y3Z4', 'A5B6C7D8', 'E9F0G1H2', 'I3J4K5L6', 'M7N8O9P0',
-        'Q1R2S3T4', 'U5V6W7X8', 'Y9Z0A1B2', 'C3D4E5F6', 'G7H8I9J0',
-        'K1L2M3N4', 'O5P6Q7R8', 'S9T0U1V2', 'W3X4Y5Z6', 'A7B8C9D0',
-        'E1F2G3H4', 'I5J6K7L8', 'M9N0O1P2', 'Q3R4S5T6', 'U7V8W9X0',
-        'Y1Z2A3B4', 'C5D6E7F8', 'G9H0I1J2', 'K3L4M5N6', 'O7P8Q9R0',
-        'S1T2U3V4', 'W5X6Y7Z8', 'A9B0C1D2', 'E3F4G5H6', 'I7J8K9L0',
-        'M1N2O3P4', 'Q5R6S7T8', 'U9V0W1X2', 'Y3Z4A5B6', 'C7D8E9F0',
-        'G1H2I3J4', 'K5L6M7N8', 'O9P0Q1R2', 'S3T4U5V6', 'W7X8Y9Z0'
+        '1B2C3D4', '5F6G7H8', '9J0K1L2', '3N4O5P6', '7R8S9T0',
+        '1V2W3X4', '5Z6A7B8', '9D0E1F2', '3H4I5J6', '7L8M9N0',
+        '1P2Q3R4', '5T6U7V8', '9X0Y1Z2', '3B4C5D6', '7F8G9H0',
+        '1J2K3L4', '5N6O7P8', '9R0S1T2', '3V4W5X6', '7Z8A9B0',
+        '1D2E3F4', '5H6I7J8', '9L0M1N2', '3P4Q5R6', '7T8U9V0',
+        '1X2Y3Z4', '5B6C7D8', '9F0G1H2', '3J4K5L6', '7N8O9P0',
+        '1R2S3T4', '5V6W7X8', '9Z0A1B2', '3D4E5F6', '7H8I9J0',
+        '1L2M3N4', '5P6Q7R8', '9T0U1V2', '3X4Y5Z6', '7B8C9D0',
+        '1F2G3H4', '5J6K7L8', '9N0O1P2', '4S5T6', 'UV8W9X0',
+        'Y1Z2A34', 'C5DE7F8', 'GH0I1J2', '3L4M5N6', '7P8Q9R0',
+        'S1TU3V4', 'W5XY7Z8', 'A9B0CD2', 'E3F4G56', 'I7JK9L0',
+        'M1NO3P4', 'Q5R67T8', 'U9V0WX2', 'YZ4A5B6', 'C78E9F0',
+        'G1H23J4', 'K5L6MN8', 'O9P0QR2', 'S34U5V6', 'W7X89Z0'
     ];
 
-    let attemptCount = localStorage.getItem('attemptCount') ? parseInt(localStorage.getItem('attemptCount')) : 0;
-    let cycleCount = localStorage.getItem('cycleCount') ? parseInt(localStorage.getItem('cycleCount')) : 0;
-    let hasWon = localStorage.getItem('hasWon') === 'true';
-    let usedPromoCodes = JSON.parse(localStorage.getItem('usedPromoCodes')) || [];
+        let attemptCount = localStorage.getItem('attemptCount') ? parseInt(localStorage.getItem('attemptCount')) : 0;
+        let cycleCount = localStorage.getItem('cycleCount') ? parseInt(localStorage.getItem('cycleCount')) : 0;
+        let hasWon = localStorage.getItem('hasWon') === 'true';
+        let usedPromoCodes = JSON.parse(localStorage.getItem('usedPromoCodes')) || [];
 
-    function checkPromoCode() {
-        const promoCode = document.getElementById('promoCode').value;
-        const messageElement = document.getElementById('message');
+        function checkPromoCode() {
+            const promoCode = document.getElementById('promoCode').value;
+            const messageElement = document.getElementById('message');
 
-        if (!promoCodes.includes(promoCode) || usedPromoCodes.includes(promoCode)) {
-            messageElement.textContent = 'Неверный или уже использованный промокод';
-            messageElement.style.display = 'block';
-            setTimeout(() => {
-                messageElement.style.display = 'none';
-            }, 3000); // Сообщение исчезнет через 3 секунды
-            return;
-        }
-
-        document.querySelector('.promo-screen').classList.remove('active');
-        document.querySelector('.slot-machine').classList.add('active');
-    }
-
-    function spin() {
-        const promoCode = document.getElementById('promoCode').value;
-        const spinSound = document.getElementById('spinSound');
-        spinSound.play();
-
-        let result;
-        if (!hasWon && (attemptCount === 4 || Math.random() < 0.2)) { // Победа на последней попытке или с вероятностью 20%
-            setReels(true);
-            result = 'Победа';
-            hasWon = true;
-            localStorage.setItem('hasWon', hasWon);
-        } else {
-            setReels(false);
-            result = 'Проигрыш';
-        }
-
-        attemptCount++;
-        localStorage.setItem('attemptCount', attemptCount);
-        usedPromoCodes.push(promoCode);
-        localStorage.setItem('usedPromoCodes', JSON.stringify(usedPromoCodes));
-        document.getElementById('promoCode').value = ''; // Очистить поле ввода промокода
-
-        sendResultToTelegram(promoCode, result);
-
-        if (attemptCount === 5) {
-            resetCycle();
-        }
-    }
-
-    function setReels(isWin) {
-        const spinDuration = 10000; // Продолжительность вращения в миллисекундах
-        const reelElements = [];
-        const spinCount = 30; // Количество вращений
-
-        for (let i = 1; i <= 3; i++) {
-            const reel = document.getElementById(`reel${i}`);
-            const reelContainer = reel.querySelector('.reel-container');
-            reelElements.push(reelContainer);
-            reelContainer.style.transition = 'none'; // Отключаем анимацию для мгновенного перемещения
-            reelContainer.style.top = '0'; // Начальная позиция
-            reelContainer.style.animation = `spin ${spinDuration / spinCount / 1000}s linear infinite`; // Устанавливаем анимацию
-        }
-
-        setTimeout(() => {
-            for (let i = 0; i < reelElements.length; i++) {
-                const reelContainer = reelElements[i];
-
-                // Останавливаем вращение и устанавливаем конечный результат
+            if (!promoCodes.includes(promoCode) || usedPromoCodes.includes(promoCode)) {
+                messageElement.textContent = 'Неверный или уже использованный промокод';
+                messageElement.style.display = 'block';
                 setTimeout(() => {
-                    reelContainer.style.animation = 'none'; // Останавливаем анимацию
-                    let randomSymbols = shuffleArray(symbols.slice()); // Перемешиваем символы
-                    reelContainer.innerHTML = ''; // Очищаем контейнер
-                    randomSymbols.forEach(symbol => {
-                        const img = document.createElement('img');
-                        img.src = symbol;
-                        reelContainer.appendChild(img);
-                    });
-                    reelContainer.style.transition = 'none';
-                    reelContainer.style.transform = 'translateY(0)';
-                }, spinDuration);
+                    messageElement.style.display = 'none';
+                }, 3000); // Сообщение исчезнет через 3 секунды
+                return;
             }
-        }, 100); // Небольшая задержка перед началом анимации
 
-        // Показать кнопку после завершения анимации
-        setTimeout(() => {
-            showResult(isWin);
-        }, spinDuration + 100); // Добавляем небольшую задержку для завершения всех анимаций
-    }
-
-    function shuffleArray(array) {
-        for (let i = array.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [array[i], array[j]] = [array[j], array[i]];
-        }
-        return array;
-    }
-
-    function showResult(isWin) {
-        const overlay = document.getElementById('overlay');
-        const resultImage = document.getElementById('resultImage');
-        const resultButton = document.getElementById('resultButton');
-        const winSound = document.getElementById('winSound');
-
-        if (isWin) {
-            resultImage.src = winImageUrl;
-            resultImage.style.display = 'block';
-            resultButton.textContent = '🎆Поздравляем🎆 Вы выиграли 1️⃣ грамм⚖️. Отправьте свой промокод🏷 и получите приз🎁 у оператора Kett💻';
-            resultButton.onclick = () => window.location.href = telegramUrl;
-            winSound.play();
-        } else {
-            resultImage.style.display = 'none'; // Убираем изображение при проигрыше
-            resultButton.textContent = 'Попробуй еще раз';
-            resultButton.onclick = resetGame;
+            document.querySelector('.promo-screen').classList.remove('active');
+            document.querySelector('.slot-machine').classList.add('active');
         }
 
-        overlay.style.display = 'flex';
-    }
+        function spin() {
+            const promoCode = document.getElementById('promoCode').value;
+            const spinSound = document.getElementById('spinSound');
+            spinSound.play();
 
-    function resetCycle() {
-        attemptCount = 0;
-        hasWon = false;
-        cycleCount++;
-        localStorage.setItem('attemptCount', attemptCount);
-        localStorage.setItem('hasWon', hasWon);
-        localStorage.setItem('cycleCount', cycleCount);
-    }
+            let result;
+            if (!hasWon && (attemptCount === 4 || Math.random() < 0.2)) { // Победа на последней попытке или с вероятностью 20%
+                setReels(true);
+                result = 'Победа';
+                hasWon = true;
+                localStorage.setItem('hasWon', hasWon);
+            } else {
+                setReels(false);
+                result = 'Проигрыш';
+            }
 
-    function resetGame() {
-        const overlay = document.getElementById('overlay');
-        overlay.style.display = 'none';
-        document.querySelector('.slot-machine').classList.remove('active');
-        document.querySelector('.promo-screen').classList.add('active');
-    }
+            attemptCount++;
+            localStorage.setItem('attemptCount', attemptCount);
+            usedPromoCodes.push(promoCode);
+            localStorage.setItem('usedPromoCodes', JSON.stringify(usedPromoCodes));
+            document.getElementById('promoCode').value = ''; // Очистить поле ввода промокода
 
-    function sendResultToTelegram(promoCode, result) {
-        const message = `Промокод: ${promoCode}\nРезультат: ${result}`;
-        const url = `https://api.telegram.org/bot${telegramBotToken}/sendMessage?chat_id=${telegramChatId}&text=${encodeURIComponent(message)}`;
+            sendResultToTelegram(promoCode, result);
 
-        fetch(url)
-            .then(response => response.json())
-            .then(data => {
-                if (!data.ok) {
-                    console.error('Ошибка при отправке сообщения в Telegram:', data);
+            if (attemptCount === 5) {
+                resetCycle();
+            }
+        }
+
+        function setReels(isWin) {
+            const spinDuration = 10000; // Продолжительность вращения в миллисекундах
+            const reelElements = [];
+            const spinCount = 75; // Количество вращений
+
+            for (let i = 1; i <= 4; i++) { // Изменено на 4 барабана
+                const reel = document.getElementById(`reel${i}`);
+                const reelContainer = reel.querySelector('.reel-container');
+                reelElements.push(reelContainer);
+                reelContainer.style.transition = 'none'; // Отключаем анимацию для мгновенного перемещения
+                reelContainer.style.top = '0'; // Начальная позиция
+                reelContainer.style.animation = `spin ${spinDuration / spinCount / 1000}s linear infinite`; // Устанавливаем анимацию
+            }
+
+            setTimeout(() => {
+                for (let i = 0; i < reelElements.length; i++) {
+                    const reelContainer = reelElements[i];
+
+                    // Останавливаем вращение и устанавливаем конечный результат
+                    setTimeout(() => {
+                        reelContainer.style.animation = 'none'; // Останавливаем анимацию
+                        let randomSymbols = shuffleArray(symbols.slice()); // Перемешиваем символы
+                        reelContainer.innerHTML = ''; // Очищаем контейнер
+                        randomSymbols.forEach(symbol => {
+                            const img = document.createElement('img');
+                            img.src = symbol;
+                            reelContainer.appendChild(img);
+                        });
+                        reelContainer.style.transition = 'none';
+                        reelContainer.style.transform = 'translateY(0)';
+                    }, spinDuration);
                 }
-            })
-            .catch(error => {
-                console.error('Ошибка при отправке сообщения в Telegram:', error);
-            });
-    }
-</script>
+            }, 100); // Небольшая задержка перед началом анимации
+
+            // Показать кнопку после завершения анимации
+            setTimeout(() => {
+                showResult(isWin);
+            }, spinDuration + 100); // Добавляем небольшую задержку для завершения всех анимаций
+        }
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function showResult(isWin) {
+            const overlay = document.getElementById('overlay');
+            const resultImage = document.getElementById('resultImage');
+            const resultButton = document.getElementById('resultButton');
+            const winSound = document.getElementById('winSound');
+
+            if (isWin) {
+                resultImage.src = winImageUrl;
+                resultImage.style.display = 'block';
+                resultButton.textContent = '🎆Поздравляем🎆 Вы выиграли 1️⃣ грамм⚖️. Отправьте свой промокод🏷 и получите приз🎁 у оператора Kett💻';
+                resultButton.onclick = () => window.location.href = telegramUrl;
+                winSound.play();
+            } else {
+                resultImage.style.display = 'none'; // Убираем изображение при проигрыше
+                resultButton.textContent = 'Попробуй еще раз';
+                resultButton.onclick = resetGame;
+            }
+
+            overlay.style.display = 'flex';
+        }
+
+        function resetCycle() {
+            attemptCount = 0;
+            hasWon = false;
+            cycleCount++;
+            localStorage.setItem('attemptCount', attemptCount);
+            localStorage.setItem('hasWon', hasWon);
+            localStorage.setItem('cycleCount', cycleCount);
+        }
+
+        function resetGame() {
+            const overlay = document.getElementById('overlay');
+            overlay.style.display = 'none';
+            document.querySelector('.slot-machine').classList.remove('active');
+            document.querySelector('.promo-screen').classList.add('active');
+        }
+
+        function sendResultToTelegram(promoCode, result) {
+            const message = `Промокод: ${promoCode}\nРезультат: ${result}`;
+            const url = `https://api.telegram.org/bot${telegramBotToken}/sendMessage?chat_id=${telegramChatId}&text=${encodeURIComponent(message)}`;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.ok) {
+                        console.error('Ошибка при отправке сообщения в Telegram:', data);
+                    }
+                })
+                .catch(error => {
+                    console.error('Ошибка при отправке сообщения в Telegram:', error);
+                });
+        }
+    </script>
 </body>
 </html>
