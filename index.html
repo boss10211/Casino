@@ -281,53 +281,69 @@
             }
         }
 
-        function setReels(isWin) {
-            const spinDuration = 10000; // Продолжительность вращения в миллисекундах
-            const reelElements = [];
-            const spinCount = 30; // Количество вращений
+function initializeReels() {
+    const reelElements = [];
+    for (let i = 1; i <= 4; i++) { // Изменено на 4 барабана
+        const reel = document.getElementById(`reel${i}`);
+        const reelContainer = reel.querySelector('.reel-container');
+        reelElements.push(reelContainer);
+        let randomSymbols = shuffleArray(symbols.slice()); // Перемешиваем символы
+        reelContainer.innerHTML = ''; // Очищаем контейнер
+        randomSymbols.forEach(symbol => {
+            const img = document.createElement('img');
+            img.src = symbol;
+            reelContainer.appendChild(img);
+        });
+    }
+}
 
-            for (let i = 1; i <= 4; i++) { // Изменено на 4 барабана
-                const reel = document.getElementById(`reel${i}`);
-                const reelContainer = reel.querySelector('.reel-container');
-                reelElements.push(reelContainer);
-                reelContainer.style.transition = 'none'; // Отключаем анимацию для мгновенного перемещения
-                reelContainer.style.top = '0'; // Начальная позиция
-                reelContainer.style.animation = `spin ${spinDuration / spinCount / 1000}s linear infinite`; // Устанавливаем анимацию
-            }
+function setReels(isWin) {
+    const spinDuration = 10000; // Продолжительность вращения в миллисекундах
+    const reelElements = [];
+    const spinCount = 45; // Количество вращений
 
+    for (let i = 1; i <= 4; i++) { // Изменено на 4 барабана
+        const reel = document.getElementById(`reel${i}`);
+        const reelContainer = reel.querySelector('.reel-container');
+        reelElements.push(reelContainer);
+        reelContainer.style.transition = 'none'; // Отключаем анимацию для мгновенного перемещения
+        reelContainer.style.top = '0'; // Начальная позиция
+        reelContainer.style.animation = `spin ${spinDuration / spinCount / 1000}s linear infinite`; // Устанавливаем анимацию
+    }
+
+    setTimeout(() => {
+        for (let i = 0; i < reelElements.length; i++) {
+            const reelContainer = reelElements[i];
+
+            // Останавливаем вращение и устанавливаем конечный результат
             setTimeout(() => {
-                for (let i = 0; i < reelElements.length; i++) {
-                    const reelContainer = reelElements[i];
-
-                    // Останавливаем вращение и устанавливаем конечный результат
-                    setTimeout(() => {
-                        reelContainer.style.animation = 'none'; // Останавливаем анимацию
-                        let randomSymbols = shuffleArray(symbols.slice()); // Перемешиваем символы
-                        reelContainer.innerHTML = ''; // Очищаем контейнер
-                        randomSymbols.forEach(symbol => {
-                            const img = document.createElement('img');
-                            img.src = symbol;
-                            reelContainer.appendChild(img);
-                        });
-                        reelContainer.style.transition = 'none';
-                        reelContainer.style.transform = 'translateY(0)';
-                    }, spinDuration);
-                }
-            }, 100); // Небольшая задержка перед началом анимации
-
-            // Показать кнопку после завершения анимации
-            setTimeout(() => {
-                showResult(isWin);
-            }, spinDuration + 100); // Добавляем небольшую задержку для завершения всех анимаций
+                reelContainer.style.animation = 'none'; // Останавливаем анимацию
+                let randomSymbols = shuffleArray(symbols.slice()); // Перемешиваем символы
+                reelContainer.innerHTML = ''; // Очищаем контейнер
+                randomSymbols.forEach(symbol => {
+                    const img = document.createElement('img');
+                    img.src = symbol;
+                    reelContainer.appendChild(img);
+                });
+                reelContainer.style.transition = 'none';
+                reelContainer.style.transform = 'translateY(0)';
+            }, spinDuration + i * 500); // Задержка для последовательной остановки
         }
+    }, 100); // Небольшая задержка перед началом анимации
 
-        function shuffleArray(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
-            return array;
-        }
+    // Показать кнопку после завершения анимации
+    setTimeout(() => {
+        showResult(isWin);
+    }, spinDuration + reelElements.length * 500 + 100); // Добавляем небольшую задержку для завершения всех анимаций
+}
+
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
 
         function showResult(isWin) {
             const overlay = document.getElementById('overlay');
