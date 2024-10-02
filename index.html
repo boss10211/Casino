@@ -139,12 +139,12 @@
 
         @keyframes spin {
             0% { transform: translateY(0); }
-            100% { transform: translateY(-100%); }
+            100% { transform: translateY(-50%); }
         }
 
         @keyframes stop {
             0% { transform: translateY(0); }
-            100% { transform: translateY(-100%); }
+            100% { transform: translateY(-50%); }
         }
     </style>
 </head>
@@ -215,20 +215,20 @@
         const telegramChatId = '5920944588'; // Замените на ID чата администратора
 
     const promoCodes = [
-        '1B2C3D4', '5F6G7H8', '9J0K1L2', '3N4O5P6', '7R8S9T0',
-        '1V2W3X4', '5Z6A7B8', '9D0E1F2', '3H4I5J6', '7L8M9N0',
-        '1P2Q3R4', '5T6U7V8', '9X0Y1Z2', '3B4C5D6', '7F8G9H0',
-        '1J2K3L4', '5N6O7P8', '9R0S1T2', '3V4W5X6', '7Z8A9B0',
-        '1D2E3F4', '5H6I7J8', '9L0M1N2', '3P4Q5R6', '7T8U9V0',
-        '1X2Y3Z4', '5B6C7D8', '9F0G1H2', '3J4K5L6', '7N8O9P0',
-        '1R2S3T4', '5V6W7X8', '9Z0A1B2', '3D4E5F6', '7H8I9J0',
-        '1L2M3N4', '5P6Q7R8', '9T0U1V2', '3X4Y5Z6', '7B8C9D0',
-        '1F2G3H4', '5J6K7L8', '9N0O1P2', '4S5T6', 'UV8W9X0',
-        'Y1Z2A34', 'C5DE7F8', 'GH0I1J2', '3L4M5N6', '7P8Q9R0',
-        'S1TU3V4', 'W5XY7Z8', 'A9B0CD2', 'E3F4G56', 'I7JK9L0',
-        'M1NO3P4', 'Q5R67T8', 'U9V0WX2', 'YZ4A5B6', 'C78E9F0',
-        'G1H23J4', 'K5L6MN8', 'O9P0QR2', 'S34U5V6', 'W7X89Z0'
-    ];
+    'X7Y8Z9A1', 'B2C3D4E5', 'F6G7H8I9', 'J0K1L2M3', 'N4O5P6Q7',
+    'R8S9T0U1', 'V2W3X4Y5', 'Z6A7B8C9', 'D0E1F2G3', 'H4I5J6K7',
+    'L8M9N0O1', 'P2Q3R4S5', 'T6U7V8W9', 'X0Y1Z2A3', 'B4C5D6E7',
+    'F8G9H0I1', 'J2K3L4M5', 'N6O7P8Q9', 'R0S1T2U3', 'V4W5X6Y7',
+    'Z8A9B0C1', 'D2E3F4G5', 'H6I7J8K9', 'L0M1N2O3', 'P4Q5R6S7',
+    'T8U9V0W1', 'X2Y3Z4A5', 'B6C7D8E9', 'F0G1H2I3', 'J4K5L6M7',
+    'N8O9P0Q1', 'R2S3T4U5', 'V6W7X8Y9', 'Z0A1B2C3', 'D4E5F6G7',
+    'H8I9J0K1', 'L2M3N4O5', 'P6Q7R8S9', 'T0U1V2W3', 'X4Y5Z6A7',
+    'B8C9D0E1', 'F2G3H4I5', 'J6K7L8M9', 'N0O1P2Q3', 'R4S5T6U7',
+    'V8W9X0Y1', 'Z2A3B4C5', 'D6E7F8G9', 'H0I1J2K3', 'L4M5N6O7',
+    'P8Q9R0S1', 'T2U3V4W5', 'X6Y7Z8A9', 'B0C1D2E3', 'F4G5H6I7',
+    'J8K9L0M1', 'N2O3P4Q5', 'R6S7T8U9', 'V0W1X2Y3', 'Z4A5B6C7',
+    'D8E9F0G1', 'H2I3J4K5', 'L6M7N8O9', 'P0Q1R2S3', 'T4U5V6W7'
+];
 
         let attemptCount = localStorage.getItem('attemptCount') ? parseInt(localStorage.getItem('attemptCount')) : 0;
         let cycleCount = localStorage.getItem('cycleCount') ? parseInt(localStorage.getItem('cycleCount')) : 0;
@@ -300,7 +300,7 @@ function initializeReels() {
 function setReels(isWin) {
     const spinDuration = 10000; // Продолжительность вращения в миллисекундах
     const reelElements = [];
-    const spinCount = 45; // Количество вращений
+    const spinCount = 30; // Количество вращений
 
     for (let i = 1; i <= 4; i++) { // Изменено на 4 барабана
         const reel = document.getElementById(`reel${i}`);
@@ -318,13 +318,26 @@ function setReels(isWin) {
             // Останавливаем вращение и устанавливаем конечный результат
             setTimeout(() => {
                 reelContainer.style.animation = 'none'; // Останавливаем анимацию
-                let randomSymbols = shuffleArray(symbols.slice()); // Перемешиваем символы
                 reelContainer.innerHTML = ''; // Очищаем контейнер
-                randomSymbols.forEach(symbol => {
-                    const img = document.createElement('img');
-                    img.src = symbol;
-                    reelContainer.appendChild(img);
-                });
+
+                if (isWin) {
+                    // Если победа, устанавливаем одинаковые символы
+                    const winSymbol = symbols[0]; // Выбираем первый символ как победный
+                    for (let j = 0; j < 10; j++) { // Добавляем 10 одинаковых символов
+                        const img = document.createElement('img');
+                        img.src = winSymbol;
+                        reelContainer.appendChild(img);
+                    }
+                } else {
+                    // Если не победа, перемешиваем символы
+                    let randomSymbols = shuffleArray(symbols.slice()); // Перемешиваем символы
+                    randomSymbols.forEach(symbol => {
+                        const img = document.createElement('img');
+                        img.src = symbol;
+                        reelContainer.appendChild(img);
+                    });
+                }
+
                 reelContainer.style.transition = 'none';
                 reelContainer.style.transform = 'translateY(0)';
             }, spinDuration + i * 500); // Задержка для последовательной остановки
@@ -344,6 +357,12 @@ function shuffleArray(array) {
     }
     return array;
 }
+
+// Инициализация барабанов при загрузке страницы
+initializeReels();
+
+// Инициализация барабанов перед каждой новой игрой
+document.getElementById('startGameButton').addEventListener('click', initializeReels);
 
         function showResult(isWin) {
             const overlay = document.getElementById('overlay');
