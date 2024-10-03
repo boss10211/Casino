@@ -18,17 +18,14 @@
             flex-direction: column;
             overflow-x: hidden; /* Избегаем горизонтальной прокрутки */
         }
-
         .promo-screen, .slot-machine {
             display: none;
             flex-direction: column;
             align-items: center;
         }
-
         .promo-screen.active, .slot-machine.active {
             display: flex;
         }
-
         .promo-code-input {
             padding: 10px;
             font-size: 1em;
@@ -36,7 +33,6 @@
             border-radius: 5px;
             margin-bottom: 10px;
         }
-
         .promo-button {
             padding: 10px 20px;
             font-size: 1em;
@@ -49,7 +45,6 @@
             display: inline-block;
             border-radius: 5px;
         }
-
         .message {
             padding: 10px 20px;
             font-size: 1.2em;
@@ -60,27 +55,24 @@
             display: none;
             margin-top: 10px;
         }
-
         .background-image {
             width: 100%;
             height: auto;
         }
-
         .reels {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            grid-template-rows: repeat(3, 1fr);
+            grid-template-columns: repeat(4, 80px);
+            grid-template-rows: repeat(3, 80px);
             gap: 0px;
             justify-content: center;
             align-items: center;
             position: relative;
-            top: -20vh;
+            top: -275px;
             transform: translateX(-13px);
         }
-
         .reel {
-            width: 20vw;
-            height: 20vh;
+            width: 80px;
+            height: 235px;
             border: 1px solid #000;
             display: flex;
             justify-content: center;
@@ -90,36 +82,31 @@
             overflow: hidden;
             position: relative;
         }
-
         .reel-container {
             display: flex;
             flex-direction: column;
             position: absolute;
             top: 0;
         }
-
         .reel img {
-            width: 100%;
-            height: auto;
+            width: 80px;
+            height: 80px;
         }
-
         .button {
             position: absolute;
             bottom: 4%;
             left: 50%;
             transform: translateX(-50%);
-            padding: 5vh 20vw;
+            padding: 50px 400px;
             font-size: 1.5em;
             cursor: pointer;
             background: none;
             border: none;
         }
-
         .button img {
-            width: 20vw;
+            width: 210px;
             height: auto;
         }
-
         .overlay {
             position: fixed;
             top: 0;
@@ -132,7 +119,6 @@
             align-items: center;
             flex-direction: column;
         }
-
         .result-button {
             margin-top: 10px;
             padding: 10px 20px;
@@ -151,7 +137,7 @@
             transform: translateX(-50%);
         }
 
-        @keyframes spin {
+@keyframes spin {
             0% { transform: translateY(0); }
             100% { transform: translateY(-50%); }
         }
@@ -160,43 +146,12 @@
             0% { transform: translateY(0); }
             100% { transform: translateY(-50%); }
         }
-
-        /* Медиазапросы для адаптивности */
-        @media (max-width: 600px) {
-            .reel {
-                width: 15vw;
-                height: 15vh;
-            }
-
-            .button {
-                padding: 5vh 15vw;
-            }
-
-            .button img {
-                width: 15vw;
-            }
-        }
-
-        @media (min-width: 601px) and (max-width: 1200px) {
-            .reel {
-                width: 18vw;
-                height: 18vh;
-            }
-
-            .button {
-                padding: 5vh 18vw;
-            }
-
-            .button img {
-                width: 18vw;
-            }
-        }
     </style>
 </head>
 <body>
     <div class="promo-screen active">
         <input type="text" id="promoCode" class="promo-code-input" placeholder="Введите промокод">
-        <button class="promo-button" onclick="checkPromoCode()">Актив</button>
+        <button class="promo-button" onclick="checkPromoCode()">Акт</button>
         <div id="message" class="message"></div>
     </div>
     <div class="slot-machine">
