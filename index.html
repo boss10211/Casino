@@ -61,8 +61,8 @@
         }
         .reels {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            grid-template-rows: repeat(3, 1fr);
+            grid-template-columns: repeat(4, 80px);
+            grid-template-rows: repeat(3, 80px);
             gap: 0px;
             justify-content: center;
             align-items: center;
@@ -89,8 +89,8 @@
             top: 0;
         }
         .reel img {
-            width: 100%;
-            height: auto;
+            width: 80px;
+            height: 80px;
         }
         .button {
             position: absolute;
@@ -136,8 +136,7 @@
             left: 50%;
             transform: translateX(-50%);
         }
-
-        @keyframes spin {
+@keyframes spin {
             0% { transform: translateY(0); }
             100% { transform: translateY(-50%); }
         }
@@ -145,34 +144,6 @@
         @keyframes stop {
             0% { transform: translateY(0); }
             100% { transform: translateY(-50%); }
-        }
-
-        @media (max-width: 768px) {
-            .reels {
-                grid-template-columns: repeat(4, 60px);
-                grid-template-rows: repeat(3, 60px);
-            }
-            .reel {
-                width: 60px;
-                height: 180px;
-            }
-            .button {
-                padding: 30px 200px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .reels {
-                grid-template-columns: repeat(4, 60px);
-                grid-template-rows: repeat(3, 60px);
-            }
-            .reel {
-                width: 60px;
-                height: 180px;
-            }
-            .button {
-                padding: 20px 100px;
-            }
         }
     </style>
 </head>
