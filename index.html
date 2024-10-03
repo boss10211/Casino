@@ -27,14 +27,14 @@
             display: flex;
         }
         .promo-code-input {
-            padding: 2%;
+            padding: 10px;
             font-size: 1em;
             border: 2px solid #000;
             border-radius: 5px;
-            margin-bottom: 2%;
+            margin-bottom: 10px;
         }
         .promo-button {
-            padding: 2% 4%;
+            padding: 10px 20px;
             font-size: 1em;
             cursor: pointer;
             background-color: gold;
@@ -46,14 +46,14 @@
             border-radius: 5px;
         }
         .message {
-            padding: 2% 4%;
+            padding: 10px 20px;
             font-size: 1.2em;
             color: red;
             background-color: rgba(255, 255, 255, 0.8);
             border: 2px solid red;
             border-radius: 5px;
             display: none;
-            margin-top: 2%;
+            margin-top: 10px;
         }
         .background-image {
             width: 100%;
@@ -61,18 +61,18 @@
         }
         .reels {
             display: grid;
-            grid-template-columns: repeat(4, 20%);
-            grid-template-rows: repeat(3, 20%);
+            grid-template-columns: repeat(4, 80px);
+            grid-template-rows: repeat(3, 80px);
             gap: 0px;
             justify-content: center;
             align-items: center;
             position: relative;
-            top: -20%;
-            transform: translateX(-2%);
+            top: -275px;
+            transform: translateX(-13px);
         }
         .reel {
-            width: 20%;
-            height: 60%;
+            width: 80px;
+            height: 235px;
             border: 1px solid #000;
             display: flex;
             justify-content: center;
@@ -89,22 +89,22 @@
             top: 0;
         }
         .reel img {
-            width: 100%;
-            height: auto;
+            width: 80px;
+            height: 80px;
         }
         .button {
             position: absolute;
             bottom: 4%;
             left: 50%;
             transform: translateX(-50%);
-            padding: 5% 20%;
+            padding: 50px 400px;
             font-size: 1.5em;
             cursor: pointer;
             background: none;
             border: none;
         }
         .button img {
-            width: 100%;
+            width: 210px;
             height: auto;
         }
         .overlay {
@@ -120,8 +120,8 @@
             flex-direction: column;
         }
         .result-button {
-            margin-top: 2%;
-            padding: 2% 4%;
+            margin-top: 10px;
+            padding: 10px 20px;
             font-size: 1em;
             cursor: pointer;
             background-color: gold;
@@ -137,7 +137,7 @@
             transform: translateX(-50%);
         }
 
-        @keyframes spin {
+@keyframes spin {
             0% { transform: translateY(0); }
             100% { transform: translateY(-50%); }
         }
