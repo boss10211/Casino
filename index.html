@@ -137,7 +137,7 @@
             transform: translateX(-50%);
         }
 
- @keyframes spin {
+        @keyframes spin {
             0% { transform: translateY(0); }
             100% { transform: translateY(-50%); }
         }
@@ -146,12 +146,63 @@
             0% { transform: translateY(0); }
             100% { transform: translateY(-50%); }
         }
+
+        /* Медиа-запросы для адаптивности */
+        @media (max-width: 600px) {
+            .reels {
+                grid-template-columns: repeat(2, 60px);
+                grid-template-rows: repeat(3, 60px);
+                top: -200px;
+                transform: translateX(-10px);
+            }
+            .reel {
+                width: 60px;
+                height: 180px;
+                font-size: 2em;
+            }
+            .button {
+                padding: 30px 200px;
+                font-size: 1em;
+            }
+            .button img {
+                width: 150px;
+            }
+            .result-button {
+                padding: 10px 15px;
+                font-size: 0.8em;
+            }
+        }
+
+        @media (min-width: 601px) and (max-width: 1200px) {
+            .reels {
+                grid-template-columns: repeat(3, 70px);
+                grid-template-rows: repeat(3, 70px);
+                top: -250px;
+                transform: translateX(-12px);
+            }
+            .reel {
+                width: 70px;
+                height: 210px;
+                font-size: 2.5em;
+            }
+            .button {
+                padding: 40px 300px;
+                font-size: 1.2em;
+            }
+            .button img {
+                width: 180px;
+            }
+            .result-button {
+                padding: 10px 18px;
+                font-size: 0.9em;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="promo-screen active">
         <input type="text" id="promoCode" class="promo-code-input" placeholder="Введите промокод">
-        <button class="promo-button" onclick="checkPromoCode()">Активировать</button>
+        <button class="promo-button" onclick="checkPromoCode()">Ак</button>
         <div id="message" class="message"></div>
     </div>
     <div class="slot-machine">
