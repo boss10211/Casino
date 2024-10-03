@@ -137,7 +137,7 @@
             transform: translateX(-50%);
         }
 
-        @keyframes spin {
+@keyframes spin {
             0% { transform: translateY(0); }
             100% { transform: translateY(-50%); }
         }
@@ -146,72 +146,9 @@
             0% { transform: translateY(0); }
             100% { transform: translateY(-50%); }
         }
-
-        /* Медиазапросы для адаптивного дизайна */
-        @media (max-width: 768px) {
-            .reels {
-                grid-template-columns: repeat(4, 60px);
-                grid-template-rows: repeat(3, 60px);
-            }
-            .reel {
-                width: 60px;
-                height: 180px;
-                font-size: 2em;
-            }
-            .button {
-                padding: 30px 200px;
-                font-size: 1em;
-            }
-            .button img {
-                width: 150px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .reels {
-                grid-template-columns: repeat(4, 40px);
-                grid-template-rows: repeat(3, 40px);
-            }
-            .reel {
-                width: 40px;
-                height: 120px;
-                font-size: 1.5em;
-            }
-            .button {
-                padding: 20px 100px;
-                font-size: 0.8em;
-            }
-            .button img {
-                width: 100px;
-            }
-        }
     </style>
 </head>
 <body>
-    <div class="promo-screen active">
-        <input type="text" class="promo-code-input" placeholder="Введите промокод">
-        <button class="promo-button">Активировать</button>
-        <div class="message">Неверный промокод</div>
-    </div>
-    <div class="slot-machine">
-        <div class="reels">
-            <div class="reel">
-                <div class="reel-container">
-                    <img src="symbol1.png" alt="symbol">
-                    <img src="symbol2.png" alt="symbol">
-                    <img src="symbol3.png" alt="symbol">
-                </div>
-            </div>
-            <!-- Добавьте остальные барабаны здесь -->
-        </div>
-        <button class="button">
-            <img src="spin-button.png" alt="Spin">
-        </button>
-        <div class="overlay">
-            <button class="result-button">Посмотреть результат</button>
-        </div>
-    </div>
-</body>
     <div class="promo-screen active">
         <input type="text" id="promoCode" class="promo-code-input" placeholder="Введите промокод">
         <button class="promo-button" onclick="checkPromoCode()">Войти</button>
