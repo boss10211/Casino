@@ -6,7 +6,7 @@
     <title>Игровой автомат</title>
     <style>
         body {
-            background-image: url('https://umbphotos.ag/images/375b18fa3ffcc616179b8cf6ed4732c6.webp'); /* Замените на URL вашего фонового изображения */
+            background-image: url('https://umbphotos.ag/images/375b18fa3ffcc616179b8cf6ed4732c6.webp');
             background-repeat: no-repeat;
             background-size: cover;
             background-attachment: fixed;
@@ -16,7 +16,7 @@
             justify-content: center;
             align-items: center;
             flex-direction: column;
-            overflow-x: hidden; /* Избегаем горизонтальной прокрутки */
+            overflow-x: hidden;
         }
         .promo-screen, .slot-machine {
             display: none;
@@ -61,8 +61,8 @@
         }
         .reels {
             display: grid;
-            grid-template-columns: repeat(4, 80px);
-            grid-template-rows: repeat(3, 80px);
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(3, 1fr);
             gap: 0px;
             justify-content: center;
             align-items: center;
@@ -89,8 +89,8 @@
             top: 0;
         }
         .reel img {
-            width: 80px;
-            height: 80px;
+            width: 100%;
+            height: auto;
         }
         .button {
             position: absolute;
@@ -113,7 +113,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.5); /* Полупрозрачный фон */
+            background-color: rgba(0, 0, 0, 0.5);
             display: none;
             justify-content: center;
             align-items: center;
@@ -137,7 +137,27 @@
             transform: translateX(-50%);
         }
 
-@keyframes spin {
+        @media (max-width: 768px) {
+            .reel {
+                width: 60px;
+                height: 180px;
+            }
+            .button {
+                padding: 30px 200px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .reel {
+                width: 40px;
+                height: 120px;
+            }
+            .button {
+                padding: 20px 100px;
+            }
+        }
+
+        @keyframes spin {
             0% { transform: translateY(0); }
             100% { transform: translateY(-50%); }
         }
