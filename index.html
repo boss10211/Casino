@@ -61,8 +61,8 @@
         }
         .reels {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            grid-template-rows: repeat(3, 1fr);
+            grid-template-columns: repeat(4, 80px);
+            grid-template-rows: repeat(3, 80px);
             gap: 0px;
             justify-content: center;
             align-items: center;
@@ -89,8 +89,8 @@
             top: 0;
         }
         .reel img {
-            width: 100%;
-            height: auto;
+            width: 80px;
+            height: 80px;
         }
         .button {
             position: absolute;
@@ -139,8 +139,8 @@
 
         @media (max-width: 768px) {
             .reel {
-                width: 60px;
-                height: 180px;
+                width: 80px;
+                height: 80px;
             }
             .button {
                 padding: 30px 200px;
@@ -149,7 +149,7 @@
 
         @media (max-width: 480px) {
             .reel {
-                width: 40px;
+                width: 80px;
                 height: 120px;
             }
             .button {
