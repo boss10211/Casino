@@ -18,6 +18,14 @@
             flex-direction: column;
             overflow-x: hidden;
         }
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            width: 100%;
+            height: 100%;
+        }
         .promo-screen, .slot-machine {
             display: none;
             flex-direction: column;
@@ -138,16 +146,16 @@
         }
 
         @media (max-width: 768px) {
-            body {
+            .container {
                 transform: scale(0.8);
-                transform-origin: top left;
+                transform-origin: center;
             }
         }
 
         @media (max-width: 480px) {
-            body {
+            .container {
                 transform: scale(0.6);
-                transform-origin: top;
+                transform-origin: center;
             }
         }
 
@@ -165,7 +173,7 @@
 <body>
     <div class="promo-screen active">
         <input type="text" id="promoCode" class="promo-code-input" placeholder="Введите промокод">
-        <button class="promo-button" onclick="checkPromoCode()">Активиров</button>
+        <button class="promo-button" onclick="checkPromoCode()">Акт</button>
         <div id="message" class="message"></div>
     </div>
     <div class="slot-machine">
