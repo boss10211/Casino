@@ -5,192 +5,195 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Игровой автомат</title>
     <style>
-body {
-    background-image: url('https://umbphotos.ag/images/375b18fa3ffcc616179b8cf6ed4732c6.webp'); /* Замените на URL вашего фонового изображения */
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-attachment: fixed;
-    margin: 0;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    overflow-x: hidden; /* Избегаем горизонтальной прокрутки */
-}
+        body {
+            background-image: url('https://umbphotos.ag/images/375b18fa3ffcc616179b8cf6ed4732c6.webp'); /* Замените на URL вашего фонового изображения */
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-attachment: fixed;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            overflow-x: hidden; /* Избегаем горизонтальной прокрутки */
+        }
 
-.promo-screen, .slot-machine {
-    display: none;
-    flex-direction: column;
-    align-items: center;
-}
+        .promo-screen, .slot-machine {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+        }
 
-.promo-screen.active, .slot-machine.active {
-    display: flex;
-}
+        .promo-screen.active, .slot-machine.active {
+            display: flex;
+        }
 
-.promo-code-input {
-    padding: 10px;
-    font-size: 1em;
-    border: 2px solid #000;
-    border-radius: 5px;
-    margin-bottom: 10px;
-}
+        .promo-code-input {
+            padding: 10px;
+            font-size: 1em;
+            border: 2px solid #000;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
 
-.promo-button {
-    padding: 10px 20px;
-    font-size: 1em;
-    cursor: pointer;
-    background-color: gold;
-    border: 2px solid #d4af37;
-    color: black;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    border-radius: 5px;
-}
+        .promo-button {
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            background-color: gold;
+            border: 2px solid #d4af37;
+            color: black;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            border-radius: 5px;
+        }
 
-.message {
-    padding: 10px 20px;
-    font-size: 1.2em;
-    color: red;
-    background-color: rgba(255, 255, 255, 0.8);
-    border: 2px solid red;
-    border-radius: 5px;
-    display: none;
-    margin-top: 10px;
-}
+        .message {
+            padding: 10px 20px;
+            font-size: 1.2em;
+            color: red;
+            background-color: rgba(255, 255, 255, 0.8);
+            border: 2px solid red;
+            border-radius: 5px;
+            display: none;
+            margin-top: 10px;
+        }
 
-.background-image {
-    width: 100%;
-    height: auto;
-}
+        .background-image {
+            width: 100%;
+            height: auto;
+        }
 
-.reels {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(3, 1fr);
-    gap: 0px;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    top: -20vh;
-    transform: translateX(-13px);
-}
+        .reels {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 0px;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            top: -20vh;
+            transform: translateX(-13px);
+        }
 
-.reel {
-    width: 20vw;
-    height: 20vh;
-    border: 1px solid #000;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 3em;
-    background-color: #E0FFFF;
-    overflow: hidden;
-    position: relative;
-}
+        .reel {
+            width: 20vw;
+            height: 20vh;
+            border: 1px solid #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 3em;
+            background-color: #E0FFFF;
+            overflow: hidden;
+            position: relative;
+        }
 
-.reel-container {
-    display: flex;
-    flex-direction: column;
-    position: absolute;
-    top: 0;
-}
+        .reel-container {
+            display: flex;
+            flex-direction: column;
+            position: absolute;
+            top: 0;
+        }
 
-.reel img {
-    width: 100%;
-    height: auto;
-}
+        .reel img {
+            width: 100%;
+            height: auto;
+        }
 
-.button {
-    position: absolute;
-    bottom: 4%;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 5vh 20vw;
-    font-size: 1.5em;
-    cursor: pointer;
-    background: none;
-    border: none;
-}
+        .button {
+            position: absolute;
+            bottom: 4%;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 5vh 20vw;
+            font-size: 1.5em;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
 
-.button img {
-    width: 20vw;
-    height: auto;
-}
+        .button img {
+            width: 20vw;
+            height: auto;
+        }
 
-.overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Полупрозрачный фон */
-    display: none;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Полупрозрачный фон */
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
 
-.result-button {
-    margin-top: 10px;
-    padding: 10px 20px;
-    font-size: 1em;
-    cursor: pointer;
-    background-color: gold;
-    border: 2px solid #d4af37;
-    color: black;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    border-radius: 5px;
-    position: absolute;
-    bottom: 5%;
-    left: 50%;
-    transform: translateX(-50%);
-}
+        .result-button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            background-color: gold;
+            border: 2px solid #d4af37;
+            color: black;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            border-radius: 5px;
+            position: absolute;
+            bottom: 5%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
 
-@keyframes spin {
-    0% { transform: translateY(0); }
-    100% { transform: translateY(-50%); }
-}
+        @keyframes spin {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-50%); }
+        }
 
-@keyframes stop {
-    0% { transform: translateY(0); }
-    100% { transform: translateY(-50%); }
-}
+        @keyframes stop {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-50%); }
+        }
 
-/* Медиазапросы для адаптивности */
-@media (max-width: 600px) {
-    .reel {
-        width: 15vw;
-        height: 15vh;
-    }
+        /* Медиазапросы для адаптивности */
+        @media (max-width: 600px) {
+            .reel {
+                width: 15vw;
+                height: 15vh;
+            }
 
-    .button {
-        padding: 5vh 15vw;
-    }
+            .button {
+                padding: 5vh 15vw;
+            }
 
-    .button img {
-        width: 15vw;
-    }
-}
+            .button img {
+                width: 15vw;
+            }
+        }
 
-@media (min-width: 601px) and (max-width: 1200px) {
-    .reel {
-        width: 18vw;
-        height: 18vh;
-    }
+        @media (min-width: 601px) and (max-width: 1200px) {
+            .reel {
+                width: 18vw;
+                height: 18vh;
+            }
 
-    .button {
-        padding: 5vh 18vw;
-    }
+            .button {
+                padding: 5vh 18vw;
+            }
 
-    .button img {
-        width: 18vw;
-    }
-}
+            .button img {
+                width: 18vw;
+            }
+        }
+    </style>
+</head>
+<body>
     <div class="promo-screen active">
         <input type="text" id="promoCode" class="promo-code-input" placeholder="Введите промокод">
         <button class="promo-button" onclick="checkPromoCode()">Актив</button>
